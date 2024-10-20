@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="style.css">
+    <title>Buku Anak Kost</title>
+</head>
+<body>
+    <div class="mainContainer">
+        <h1>RESET DATA ANDA?</h1>
+        <h2>KONFIRMASI UNTUK MELANJUTKAN</h2>
+        <br>
+        <div class="inputPanel">
+            <div class="inpBtn">
+                <button onclick='localStorage.removeItem("pembukuan"); localStorage.removeItem("totalPe"); window.location.href = "index.html";'>RESET</button>
+                <button onclick='window.location.href = "index.html";'>BATAL</button>
+            </div>
+        </div>
+        <br>
+        <hr>
+        <p class="cp">&copy; DEEOGIKK 2024</p>
+    </div>
+</body>
+</html>
