@@ -31,24 +31,29 @@ function appload() {
     }
 }
 
+var pclick = 0;
 function pengeluaran() {
     ambilHari();
     ambilJam();
 
+    pclick += 1;
+    console.log(pclick)
+
     var ju = document.getElementById("ju").value;
     var k = document.getElementById("k").value;
 
-    if (ju !== "" || k !== "") {
-        if (k === "r(data)") {
-            window.localStorage.removeItem("pembukuan");
-            window.localStorage.removeItem("totalPe");
-        } else {
-            document.getElementById("pembukuan").innerHTML = "<li>" + hari + " " + jam + " | " + k + " | " + ju + "</li>" + localStorage.getItem("pembukuan");
-            window.localStorage.setItem("pembukuan", document.getElementById("pembukuan").innerHTML);
+    if (ju !== "" || k !== "") { 
+        document.getElementById("pembukuan").innerHTML = "<li>" + hari + " " + jam + " | " + k + " | " + ju + "</li>" + localStorage.getItem("pembukuan");
+        window.localStorage.setItem("pembukuan", document.getElementById("pembukuan").innerHTML);
 
-            totalPengeluaran = parseInt(totalPengeluaran) + parseInt(ju);
-            window.localStorage.setItem("totalPe", totalPengeluaran);
-        }
+        totalPengeluaran = parseInt(totalPengeluaran) + parseInt(ju);
+        window.localStorage.setItem("totalPe", totalPengeluaran);
+        window.location.href = "index.html";
     }
-    window.location.href = "index.html";
+    if(pclick === 2) {
+        alert("terus klik untuk mereset data");
+    }
+    if(pclick === 5) {
+        window.location.href = "resetData.html";
+    }
 }
