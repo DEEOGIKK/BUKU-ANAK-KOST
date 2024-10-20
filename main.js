@@ -1,63 +1,50 @@
 var hari;
 var jam;
+var mockedDate = new Date();
 
-function appload() {
-    document.getElementById("pembukuan").innerHTML = window.localStorage.getItem("pembukuan");
-    totalPengeluaran = parseInt(window.localStorage.getItem("totalPe") || 0);
-    document.getElementById("tp").innerHTML = "TOTAL MINGGU INI " + totalPengeluaran;
+function tb(tanggal) { //tb(2024-10-27)
+    mockedDate = new Date(tanggal); 
+    appload();
 }
 
 function ambilHari() {
-    const dayName = (date, locale) =>
-        date.toLocaleDateString(locale, { weekday: 'long' });
-
-    switch (dayName(new Date())) {
-        case "Sunday":
-            hari = "MINGGU"
-            break;
-        case "Monday":
-            hari = "SENIN"
-            break;
-        case "Tuesday":
-            hari = "SELASA"
-            break;
-        case "Wednesday":
-            hari = "RABU"
-            break;
-        case "Thursday":
-            hari = "KAMIS"
-            break;
-        case "Friday":
-            hari = "JUMAT"
-            break;
-        case "Saturday":
-            hari = "SABTU"
-            break;
-    }
+    var date = mockedDate || new Date;
+    const days = ["MINGGU", "SENIN", "SELASA", "RABU", "KAMIS", "JUMAT", "SABTU"];
+    hari = days[date.getDay()];
 }
 
 function ambilJam() {
-    const date = new Date();
-    const h = date.getHours();
-    const m = date.getMinutes();
-    jam = h.toString() +":"+ m.toString()
+    const h = mockedDate.getHours();
+    const m = mockedDate.getMinutes();
+    jam = h.toString() + ":" + m.toString();
+}
+
+function appload() {
+    ambilHari()
+    document.getElementById("pembukuan").innerHTML = window.localStorage.getItem("pembukuan");
+    totalPengeluaran = parseInt(window.localStorage.getItem("totalPe") || 0);
+    document.getElementById("tp").innerHTML = "TOTAL MINGGU INI " + totalPengeluaran;
+
+    if(document.getElementById("pembukuan").innerHTML === "") {
+        document.getElementById("pembukuan").innerHTML = "<hr><b>" + hari + " | " + mockedDate.getDate() + "-" + mockedDate.getMonth() +"-"+ mockedDate.getFullYear() + "</b>";
+        localStorage.setItem("pembukuan", document.getElementById("pembukuan").innerHTML)
+    }
 }
 
 function pengeluaran() {
-    ambilHari()
-    ambilJam()
+    ambilHari();
+    ambilJam();
 
-    var ju = document.getElementById("ju").value
-    var k = document.getElementById("k").value
+    var ju = document.getElementById("ju").value;
+    var k = document.getElementById("k").value;
 
-    if(ju !== "" || k !== "") {
-        if(k === "r(data)") {
+    if (ju !== "" || k !== "") {
+        if (k === "r(data)") {
             window.localStorage.removeItem("pembukuan");
             window.localStorage.removeItem("totalPe");
-        }
-        else {
-            document.getElementById("pembukuan").innerHTML += "<li>"+ hari +" "+jam+" | " + k + " | " + ju + "</li>"
-            window.localStorage.setItem("pembukuan", document.getElementById("pembukuan").innerHTML)
+        } else {
+            document.getElementById("pembukuan").innerHTML = "<li>" + hari + " " + jam + " | " + k + " | " + ju + "</li>" + localStorage.getItem("pembukuan");
+            window.localStorage.setItem("pembukuan", document.getElementById("pembukuan").innerHTML);
 
             totalPengeluaran = parseInt(totalPengeluaran) + parseInt(ju);
             window.localStorage.setItem("totalPe", totalPengeluaran);
